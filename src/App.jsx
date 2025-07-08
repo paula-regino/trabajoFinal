@@ -17,7 +17,7 @@ import Catalogo from './pages/Catalogo.jsx';
 function App() {
   return (
     <CartProvider>
-      <Router basename='/projectReact'>
+      <Router basename='/projectReact1.2'>
         <div
           style={{
             minHeight: '100vh',
