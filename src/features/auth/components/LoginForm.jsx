@@ -53,7 +53,9 @@ export function LoginForm() {
         isAdmin:
           typeof u.isAdmin === 'boolean'
             ? u.isAdmin
-            : u.isAdmin === 'admin' || u.isAdmin === true || u.isAdmin === 'true',
+            : u.isAdmin === 'admin' ||
+              u.isAdmin === true ||
+              u.isAdmin === 'true',
       }));
       localStorage.setItem('users', JSON.stringify(users));
       const user = users.find(
@@ -138,7 +140,7 @@ export function LoginForm() {
             <div className='d-grid mt-4'>
               <button
                 type='submit'
-                className='btn btn-primary btn-lg fw-bold'
+                className='btn btn-outline-primary btn-lg fw-bold'
                 disabled={!isFormValid()}
               >
                 <i className='bi bi-box-arrow-in-right me-2'></i>Iniciar Sesión

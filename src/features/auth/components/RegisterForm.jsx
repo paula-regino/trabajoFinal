@@ -11,7 +11,7 @@ export function RegisterForm() {
     confirmPassword: '',
     phone: '',
     acceptTerms: false,
-    isAdmin: false, // Booleano por defecto
+    isAdmin: false,
   });
 
   const [errors, setErrors] = useState({});
@@ -25,7 +25,7 @@ export function RegisterForm() {
     } else {
       setForm({
         ...form,
-        [name]: type === 'checkbox' ? checked : value,
+        [name]: type === 'checkbox' ? checked : value, // Manejo de checkbox para saber si es admin
       });
     }
     // Validación en tiempo real
@@ -302,7 +302,7 @@ export function RegisterForm() {
                 <div className='d-grid gap-2'>
                   <button
                     type='submit'
-                    className='btn btn-primary'
+                    className='btn btn-outline-primary '
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? (

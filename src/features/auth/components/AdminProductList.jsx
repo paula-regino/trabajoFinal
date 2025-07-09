@@ -20,7 +20,7 @@ const AdminProductList = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [createdProduct, setCreatedProduct] = useState(null);
 
-  // Nueva función para recargar productos desde la API
+  // función para recargar productos desde la API
   const fetchProducts = async () => {
     try {
       const res = await fetch('https://api.escuelajs.co/api/v1/products');
@@ -157,7 +157,7 @@ const AdminProductList = () => {
         </button>
       </div>
 
-      {/* Tabla con diseño mejorado */}
+      {/* Tabla */}
       <div
         className='table-container'
         style={{
