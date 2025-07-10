@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import logo from '../../assets/Logo.png';
 import '../../shared/styles/estiloLanding.css';
 import { CartButton } from '../../features/cart/components/CartButton';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useAuth } from '../../features/auth/hooks/useAuth';
 
 export function Navbar() {
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
@@ -17,6 +18,9 @@ export function Navbar() {
     }
   });
 
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
   React.useEffect(() => {
     setUser(reduxUser || JSON.parse(localStorage.getItem('currentUser')));
     const handleStorage = () => {
@@ -27,6 +31,14 @@ export function Navbar() {
   }, [reduxUser]);
 
   const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
+
+  const handleLogout = () => {
+    // La lógica de logout (limpiar localStorage y Redux)
+    // debería estar centralizada en el hook useAuth.
+    logout();
+    // Navegar a la página de inicio sin recargar la página.
+    navigate('/');
+  };
 
   return (
     <header>
@@ -170,11 +182,7 @@ export function Navbar() {
                   <li className='nav-item mx-2'>
                     <button
                       className='btn btn-outline-light px-3 py-2 rounded-pill'
-                      onClick={() => {
-                        localStorage.removeItem('currentUser');
-                        setUser(null);
-                        window.location.href = '/projectReact/';
-                      }}
+                      onClick={handleLogout}
                     >
                       <i className='bi bi-box-arrow-right me-2'></i>
                       Cerrar sesión

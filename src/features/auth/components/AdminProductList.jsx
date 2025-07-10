@@ -5,7 +5,7 @@ const initialForm = {
   title: '',
   price: '',
   description: '',
-  categoryId: 1,
+  categoryId: 33,
   images: ['https://placeimg.com/640/480/any'],
 };
 
@@ -104,11 +104,14 @@ const AdminProductList = () => {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            ...form,
+            title: form.title,
             price: Number(form.price),
+            description: form.description,
+            categoryId: Number(form.categoryId), // ✅ aseguramos que sea número
             images: [form.images[0] || 'https://placeimg.com/640/480/any'],
           }),
         });
+
         let created = await res.json();
         // Normalizar datos para el modal
         created = {

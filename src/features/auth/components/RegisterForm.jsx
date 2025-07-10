@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 export function RegisterForm() {
@@ -323,7 +323,7 @@ export function RegisterForm() {
                 <div className='text-center mt-3'>
                   <p>
                     ¿Ya tienes una cuenta?{' '}
-                    <a href='/login'>Inicia sesión aquí</a>
+                    <Link to='/login'>Inicia sesión aquí</Link>
                   </p>
                 </div>
               </form>

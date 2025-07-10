@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 export function LoginForm() {
@@ -14,6 +15,7 @@ export function LoginForm() {
   });
 
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   const validate = (name, value) => {
     switch (name) {
@@ -46,24 +48,17 @@ export function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isFormValid()) {
-      // Migrar todos los usuarios para que isAdmin sea booleano
-      let users = JSON.parse(localStorage.getItem('users') || '[]');
-      users = users.map((u) => ({
-        ...u,
-        isAdmin:
-          typeof u.isAdmin === 'boolean'
-            ? u.isAdmin
-            : u.isAdmin === 'admin' ||
-              u.isAdmin === true ||
-              u.isAdmin === 'true',
-      }));
-      localStorage.setItem('users', JSON.stringify(users));
+      // --- RECOMENDACIÓN ---
+      // La lógica de "migración" de usuarios se ha eliminado de aquí.
+      // No es una buena práctica ejecutarla en cada intento de login.
+      // Esto debería ser un script de único uso o manejado en un backend.
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
       const user = users.find(
         (u) => u.email === form.email && u.password === form.password
       );
       if (user) {
-        // Asegurar que el usuario logueado también tenga isAdmin booleano
-        const userToStore = { ...user, isAdmin: !!user.isAdmin };
+        // Aseguramos que `isAdmin` sea siempre un booleano para consistencia.
+        const userToStore = { ...user, isAdmin: Boolean(user.isAdmin) };
         localStorage.setItem('currentUser', JSON.stringify(userToStore));
         // Actualizar Redux
         await login(userToStore);
@@ -73,11 +68,7 @@ export function LoginForm() {
           showConfirmButton: false,
           timer: 1000,
         }).then(() => {
-          if (userToStore.isAdmin) {
-            window.location.href = '/projectReact/admin';
-          } else {
-            window.location.href = '/projectReact/';
-          }
+          navigate(userToStore.isAdmin ? '/admin' : '/');
         });
         setForm({ email: '', password: '' });
         setErrors({ email: '', password: '' });
