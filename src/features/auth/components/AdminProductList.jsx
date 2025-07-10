@@ -99,35 +99,32 @@ const AdminProductList = () => {
         });
         await fetchProducts();
       } else {
-        // Crear producto
-        const res = await fetch('https://api.escuelajs.co/api/v1/products', {
+        // 1. Preparamos los datos del producto SIN ID. La API se encargará de generarlo.
+        const productData = {
+          title: form.title,
+          price: Number(form.price),
+          description: form.description,
+          categoryId: Number(form.categoryId),
+          images: [form.images[0] || 'https://placeimg.com/640/480/any'],
+        };
+
+        // 2. Enviamos la petición a la API para crear el producto.
+        const res = await fetch('https://api.escuelajs.co/api/v1/products/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            title: form.title,
-            price: Number(form.price),
-            description: form.description,
-            categoryId: Number(form.categoryId), // ✅ aseguramos que sea número
-            images: [form.images[0] || 'https://placeimg.com/640/480/any'],
-          }),
+          body: JSON.stringify(productData),
         });
 
-        let created = await res.json();
-        // Normalizar datos para el modal
-        created = {
-          ...created,
-          title: created.title || form.title,
-          price: created.price || form.price,
-          description: created.description || form.description,
-          images:
-            created.images && created.images.length > 0
-              ? created.images
-              : [form.images[0] || 'https://placeimg.com/640/480/any'],
-          category: created.category || {
-            id: created.categoryId || form.categoryId,
-            name: '',
-          },
-        };
+        const created = await res.json();
+
+        // 3. Verificamos si la API devolvió un error o no generó un ID.
+        if (created.error || !created.id) {
+          throw new Error(
+            created.message || 'La API no pudo crear el producto.'
+          );
+        }
+
+        // 4. Actualizamos el estado local para que veas el producto al instante.
         setProducts((prev) => [created, ...prev]);
         setCreatedProduct(created);
         setShowSuccess(true);
@@ -135,7 +132,7 @@ const AdminProductList = () => {
       }
       setShowForm(false);
     } catch (err) {
-      alert('Error al guardar el producto');
+      alert(`Error al guardar el producto: ${err.message}`);
     } finally {
       setSaving(false);
     }
@@ -146,7 +143,7 @@ const AdminProductList = () => {
 
   return (
     <div>
-      <h3>Lista de Productos (Admin)</h3>
+      <h3>Lista de Productos</h3>
       <div className='mb-3 d-flex justify-content-between'>
         <input
           type='text'

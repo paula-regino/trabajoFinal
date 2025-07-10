@@ -12,397 +12,126 @@ const Dashboard = () => {
       className='dashboard-container'
       style={{
         minHeight: '100vh',
-        background: '#f8fafc',
+        background: 'linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)',
         padding: '2rem 0',
       }}
     >
-      <div className='container py-5'>
-        <div className='row'>
-          <div className='dashboard-header d-flex justify-content-between align-items-center mb-5 col-12'>
-            <div>
-              <h1
-                className='fw-bold text-dark mb-2'
-                style={{
-                  fontSize: '2.5rem',
-                  textShadow: 'none',
-                }}
-              >
-                Panel de Control
-              </h1>
-              <p
-                className='text-muted mb-0'
-                style={{
-                  fontSize: '1.1rem',
-                  fontWeight: '300',
-                }}
-              >
-                Bienvenido, {user?.firstName || user?.name}
-              </p>
-            </div>
-            <div className='dashboard-stats d-flex gap-3'>
-              <div
-                className='stat-card text-center'
-                style={{
-                  background: 'white',
-                  borderRadius: '12px',
-                  padding: '1rem 1.5rem',
-                  border: '1px solid #e2e8f0',
-                  boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
-                }}
-              >
-                <div
-                  className='text-dark fw-bold'
-                  style={{ fontSize: '1.2rem' }}
-                >
-                  {user?.isAdmin ? 'Admin' : 'Cliente'}
-                </div>
-                <div className='text-muted' style={{ fontSize: '0.8rem' }}>
-                  Rol
-                </div>
-              </div>
-              <div
-                className='stat-card text-center'
-                style={{
-                  background: 'white',
-                  borderRadius: '12px',
-                  padding: '1rem 1.5rem',
-                  border: '1px solid #e2e8f0',
-                  boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
-                }}
-              >
-                <div
-                  className='text-dark fw-bold'
-                  style={{ fontSize: '1.2rem' }}
-                >
-                  ID: {user?.id}
-                </div>
-                <div className='text-muted' style={{ fontSize: '0.8rem' }}>
-                  Usuario
-                </div>
-              </div>
-            </div>
+      <div className='container-fluid px-4'>
+        {/* Header simplificado */}
+        <div className='d-flex justify-content-between align-items-center mb-4'>
+          <div>
+            <h1
+              className='fw-bold mb-0'
+              style={{
+                color: '#111827',
+                fontSize: '1.8rem',
+                letterSpacing: '-0.5px',
+              }}
+            >
+              Panel de Administración
+            </h1>
+            <p className='text-muted mb-0' style={{ fontSize: '0.9rem' }}>
+              Gestión de productos
+            </p>
           </div>
+          <div className='d-flex align-items-center gap-2'>
+            <span
+              className='badge rounded-pill px-3 py-2'
+              style={{
+                background: '#e5e7eb',
+                color: '#4b5563',
+                fontWeight: '500',
+              }}
+            >
+              {user?.isAdmin ? 'Administrador' : 'Usuario'}
+            </span>
+          </div>
+        </div>
 
-          <div className='dashboard-content row w-100'>
-            <div className='user-info col-md-4 mb-4'>
+        {/* Contenido principal */}
+        <div className='row'>
+          <div className='col-12'>
+            {user?.isAdmin ? (
               <div
-                className='card shadow-lg border-0'
+                className='card border-0 shadow-sm'
                 style={{
-                  borderRadius: '16px',
+                  borderRadius: '12px',
                   overflow: 'hidden',
-                  background: 'rgba(255,255,255,0.95)',
-                  backdropFilter: 'blur(10px)',
+                  background: 'white',
                 }}
               >
                 <div
                   className='card-header border-0'
                   style={{
-                    background:
-                      'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                    color: 'white',
+                    background: 'white',
                     padding: '1.5rem',
+                    borderBottom: '1px solid #e5e7eb',
                   }}
-                >
-                  <h4 className='mb-0 fw-bold' style={{ fontSize: '1.3rem' }}>
-                    Información de Usuario
-                  </h4>
-                </div>
-                <div className='card-body' style={{ padding: '2rem' }}>
-                  {user?.avatar && (
-                    <div className='user-avatar mb-4 text-center'>
-                      <div
-                        style={{
-                          position: 'relative',
-                          display: 'inline-block',
-                        }}
-                      >
-                        <img
-                          src={user.avatar}
-                          alt={`Avatar de ${user.name || user.firstName}`}
-                          className='rounded-circle'
-                          style={{
-                            width: 100,
-                            height: 100,
-                            border: '4px solid #667eea',
-                            boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)',
-                          }}
-                        />
-                        <div
-                          style={{
-                            position: 'absolute',
-                            bottom: 0,
-                            right: 0,
-                            width: '24px',
-                            height: '24px',
-                            background: user?.isAdmin ? '#10b981' : '#3b82f6',
-                            borderRadius: '50%',
-                            border: '3px solid white',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                          }}
-                        >
-                          <div
-                            style={{
-                              width: '8px',
-                              height: '8px',
-                              background: 'white',
-                              borderRadius: '50%',
-                            }}
-                          ></div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  <div className='user-details'>
-                    <div
-                      className='detail-item mb-3'
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        padding: '0.75rem',
-                        background: '#f8fafc',
-                        borderRadius: '8px',
-                        border: '1px solid #e2e8f0',
-                      }}
-                    >
-                      <div
-                        style={{
-                          width: '36px',
-                          height: '36px',
-                          background:
-                            'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                          borderRadius: '8px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          marginRight: '12px',
-                        }}
-                      >
-                        <svg
-                          width='16'
-                          height='16'
-                          viewBox='0 0 24 24'
-                          fill='none'
-                          stroke='white'
-                          strokeWidth='2'
-                        >
-                          <path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'></path>
-                          <circle cx='12' cy='7' r='4'></circle>
-                        </svg>
-                      </div>
-                      <div>
-                        <div
-                          style={{
-                            fontSize: '0.8rem',
-                            color: '#6b7280',
-                            fontWeight: '500',
-                          }}
-                        >
-                          Nombre
-                        </div>
-                        <div
-                          style={{
-                            fontSize: '0.95rem',
-                            color: '#374151',
-                            fontWeight: '600',
-                          }}
-                        >
-                          {user?.firstName || user?.name}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div
-                      className='detail-item mb-3'
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        padding: '0.75rem',
-                        background: '#f8fafc',
-                        borderRadius: '8px',
-                        border: '1px solid #e2e8f0',
-                      }}
-                    >
-                      <div
-                        style={{
-                          width: '36px',
-                          height: '36px',
-                          background:
-                            'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                          borderRadius: '8px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          marginRight: '12px',
-                        }}
-                      >
-                        <svg
-                          width='16'
-                          height='16'
-                          viewBox='0 0 24 24'
-                          fill='none'
-                          stroke='white'
-                          strokeWidth='2'
-                        >
-                          <path d='M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z'></path>
-                          <polyline points='22,6 12,13 2,6'></polyline>
-                        </svg>
-                      </div>
-                      <div>
-                        <div
-                          style={{
-                            fontSize: '0.8rem',
-                            color: '#6b7280',
-                            fontWeight: '500',
-                          }}
-                        >
-                          Email
-                        </div>
-                        <div
-                          style={{
-                            fontSize: '0.95rem',
-                            color: '#374151',
-                            fontWeight: '600',
-                          }}
-                        >
-                          {user?.email}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div
-                      className='detail-item mb-3'
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        padding: '0.75rem',
-                        background: '#f8fafc',
-                        borderRadius: '8px',
-                        border: '1px solid #e2e8f0',
-                      }}
-                    >
-                      <div
-                        style={{
-                          width: '36px',
-                          height: '36px',
-                          background:
-                            'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                          borderRadius: '8px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          marginRight: '12px',
-                        }}
-                      >
-                        <svg
-                          width='16'
-                          height='16'
-                          viewBox='0 0 24 24'
-                          fill='none'
-                          stroke='white'
-                          strokeWidth='2'
-                        >
-                          <path d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'></path>
-                        </svg>
-                      </div>
-                      <div>
-                        <div
-                          style={{
-                            fontSize: '0.8rem',
-                            color: '#6b7280',
-                            fontWeight: '500',
-                          }}
-                        >
-                          Rol
-                        </div>
-                        <div
-                          style={{
-                            fontSize: '0.95rem',
-                            fontWeight: '600',
-                            color: user?.isAdmin ? '#059669' : '#3b82f6',
-                          }}
-                        >
-                          {user?.isAdmin ? 'Administrador' : 'Cliente'}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className='col-md-8'>
-              {user?.isAdmin ? (
-                <div
-                  className='admin-content'
-                  style={{
-                    background: 'rgba(255,255,255,0.95)',
-                    borderRadius: '16px',
-                    padding: '2rem',
-                    backdropFilter: 'blur(10px)',
-                    boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
-                    border: '1px solid rgba(255,255,255,0.2)',
-                  }}
-                >
+                ></div>
+                <div className='card-body p-0'>
                   <AdminProductList />
                 </div>
-              ) : (
-                <div
-                  className='alert border-0 shadow-lg'
-                  style={{
-                    background:
-                      'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
-                    borderRadius: '16px',
-                    padding: '2rem',
-                    color: '#92400e',
-                    fontSize: '1.1rem',
-                    boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
-                  }}
-                >
-                  <div className='d-flex align-items-center'>
-                    <div
-                      style={{
-                        width: '48px',
-                        height: '48px',
-                        background: '#f59e0b',
-                        borderRadius: '12px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginRight: '1rem',
-                      }}
+              </div>
+            ) : (
+              <div
+                className='card border-0'
+                style={{
+                  background: 'rgba(255,255,255,0.9)',
+                  backdropFilter: 'blur(10px)',
+                  borderRadius: '12px',
+                  boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)',
+                }}
+              >
+                <div className='card-body text-center py-5'>
+                  <div
+                    className='mx-auto mb-4'
+                    style={{
+                      width: '80px',
+                      height: '80px',
+                      background: '#fee2e2',
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <svg
+                      width='32'
+                      height='32'
+                      viewBox='0 0 24 24'
+                      fill='none'
+                      stroke='#dc2626'
+                      strokeWidth='2'
                     >
-                      <svg
-                        width='24'
-                        height='24'
-                        viewBox='0 0 24 24'
-                        fill='none'
-                        stroke='white'
-                        strokeWidth='2'
-                      >
-                        <circle cx='12' cy='12' r='10'></circle>
-                        <line x1='12' y1='8' x2='12' y2='12'></line>
-                        <line x1='12' y1='16' x2='12.01' y2='16'></line>
-                      </svg>
-                    </div>
-                    <div>
-                      <h5
-                        className='mb-1'
-                        style={{ color: '#92400e', fontWeight: '600' }}
-                      >
-                        Acceso Restringido
-                      </h5>
-                      <p className='mb-0' style={{ color: '#a16207' }}>
-                        Solo los administradores pueden ver la lista de
-                        productos.
-                      </p>
-                    </div>
+                      <path d='M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z'></path>
+                      <line x1='12' y1='9' x2='12' y2='13'></line>
+                      <line x1='12' y1='17' x2='12.01' y2='17'></line>
+                    </svg>
                   </div>
+                  <h5 className='fw-semibold mb-2' style={{ color: '#111827' }}>
+                    Acceso restringido
+                  </h5>
+                  <p
+                    className='text-muted mb-4'
+                    style={{ maxWidth: '400px', margin: '0 auto' }}
+                  >
+                    No tienes permisos para acceder a esta sección. Contacta al
+                    administrador del sistema.
+                  </p>
+                  <button
+                    className='btn'
+                    style={{
+                      background: '#e5e7eb',
+                      color: '#4b5563',
+                      borderRadius: '8px',
+                      fontWeight: '500',
+                    }}
+                  >
+                    Volver al inicio
+                  </button>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
